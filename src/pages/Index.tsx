@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const Index: React.FC = () => {
-  const { notes, folders } = useNotes();
+  const { notes, folders, createNote } = useNotes();
   const { t } = useLanguage();
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
