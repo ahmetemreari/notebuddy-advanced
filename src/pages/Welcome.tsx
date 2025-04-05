@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Facebook, Github, Google, Twitter } from 'lucide-react';
+import { Facebook, Github, Mail, Twitter } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -86,7 +86,7 @@ const Welcome: React.FC = () => {
                   className="flex items-center justify-center gap-2"
                   onClick={() => handleSocialLogin('google')}
                 >
-                  <Google className="h-4 w-4" />
+                  <Mail className="h-4 w-4" />
                   Google
                 </Button>
                 
