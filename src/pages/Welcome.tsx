@@ -45,7 +45,7 @@ const Welcome: React.FC = () => {
             <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
             <polyline points="14 2 14 8 20 8" />
           </svg>
-          <span className="text-xl font-semibold">NotesPro</span>
+          <span className="text-xl font-semibold">{t('appName')}</span>
         </div>
         <LanguageSelector />
       </header>
@@ -87,7 +87,7 @@ const Welcome: React.FC = () => {
                   onClick={() => handleSocialLogin('google')}
                 >
                   <Mail className="h-4 w-4" />
-                  Google
+                  {t('google')}
                 </Button>
                 
                 <Button 
@@ -96,7 +96,7 @@ const Welcome: React.FC = () => {
                   onClick={() => handleSocialLogin('facebook')}
                 >
                   <Facebook className="h-4 w-4" />
-                  Facebook
+                  {t('facebook')}
                 </Button>
                 
                 <Button 
@@ -105,7 +105,7 @@ const Welcome: React.FC = () => {
                   onClick={() => handleSocialLogin('twitter')}
                 >
                   <Twitter className="h-4 w-4" />
-                  Twitter
+                  {t('twitter')}
                 </Button>
                 
                 <Button 
@@ -114,7 +114,7 @@ const Welcome: React.FC = () => {
                   onClick={() => handleSocialLogin('github')}
                 >
                   <Github className="h-4 w-4" />
-                  GitHub
+                  {t('github')}
                 </Button>
               </div>
             </CardContent>
@@ -129,7 +129,7 @@ const Welcome: React.FC = () => {
       </main>
       
       <footer className="py-4 text-center text-sm text-muted-foreground">
-        © 2025 NotesPro. {t('allRightsReserved')}
+        © 2025 {t('appName')}. {t('allRightsReserved')}
       </footer>
     </div>
   );
