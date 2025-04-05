@@ -77,7 +77,6 @@ const Index: React.FC = () => {
                     variant={selectedFolder === null ? "secondary" : "ghost"}
                     onClick={() => setSelectedFolder(null)}
                     className="w-full justify-start text-sm h-9 px-2"
-                    icon="folder"
                   >
                     <FolderOpen className="h-4 w-4 mr-2" />
                     {t('allNotes')}

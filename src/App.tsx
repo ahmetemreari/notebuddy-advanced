@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NotesProvider } from "./context/NotesContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import Welcome from "./pages/Welcome";
 import Index from "./pages/Index";
 import Editor from "./pages/Editor";
 import Admin from "./pages/Admin";
@@ -22,6 +23,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
+              <Route path="/welcome" element={<Welcome />} />
               <Route path="/" element={<Index />} />
               <Route path="/editor/:id" element={<Editor />} />
               <Route path="/admin" element={<Admin />} />

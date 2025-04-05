@@ -29,6 +29,17 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'admin' | 'guest';
   createdAt: Date;
+  authProvider?: 'email' | 'google' | 'facebook' | 'twitter' | 'github' | 'guest';
+}
+
+export interface AuthCredentials {
+  email: string;
+  password: string;
+}
+
+export interface SocialAuthProvider {
+  name: string;
+  icon: React.ElementType;
 }
