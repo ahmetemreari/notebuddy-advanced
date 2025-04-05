@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Facebook, Github, Mail, Twitter } from 'lucide-react';
@@ -6,26 +5,32 @@ import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import LanguageSelector from '@/components/layout/LanguageSelector';
+import { useNotes } from '@/context/NotesContext';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { isAuthenticated } = useNotes();
   
   // Set document title
   React.useEffect(() => {
     document.title = `${t('welcome')} | ${t('appName')}`;
   }, [t]);
   
+  React.useEffect(() => {
+    // Eğer kullanıcı zaten giriş yapmışsa, ana sayfaya yönlendir
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+  
   const handleGuestLogin = () => {
-    // For guest login, we'll navigate directly to the main page
-    navigate('/');
+    navigate('/auth');
   };
   
   const handleSocialLogin = (provider: string) => {
-    // This would be integrated with authentication service in a real app
     console.log(`Login with ${provider}`);
-    // For now, simulate login and redirect
-    setTimeout(() => navigate('/'), 1000);
+    navigate('/auth');
   };
 
   return (
@@ -121,7 +126,7 @@ const Welcome: React.FC = () => {
             
             <CardFooter className="flex justify-center text-sm text-muted-foreground">
               <p>
-                {t('advancedLogin')} <a href="#" className="underline hover:text-primary">{t('clickHere')}</a>
+                {t('advancedLogin')} <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/auth')}>{t('clickHere')}</Button>
               </p>
             </CardFooter>
           </Card>
