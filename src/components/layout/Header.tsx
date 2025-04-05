@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Plus, FolderPlus, Search, Settings, Menu } from 'lucide-react';
 import { useNotes } from '@/context/NotesContext';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface HeaderProps {
@@ -96,18 +96,17 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
               </Button>
               
               <Button 
-                variant="primary" 
+                variant="default" 
                 size="sm" 
                 onClick={handleCreateNote}
-                icon={<Plus className="h-4 w-4" />}
-                iconPosition="left"
-                className="hidden md:flex"
+                className="hidden md:flex gap-2 items-center"
               >
+                <Plus className="h-4 w-4" />
                 New Note
               </Button>
               
               <Button 
-                variant="primary" 
+                variant="default" 
                 size="icon" 
                 onClick={handleCreateNote}
                 className="md:hidden"
