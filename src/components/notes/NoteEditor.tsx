@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Save, ArrowLeft, Trash2, MoreVertical } from 'lucide-react';
 import { useNotes } from '@/context/NotesContext';
-import Button from '@/components/ui/Button';
+import { useLanguage } from '@/context/LanguageContext';
+import { Button } from '@/components/ui/button';
 
 const NoteEditor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { notes, updateNote, deleteNote, folders } = useNotes();
+  const { t } = useLanguage();
   
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -59,7 +61,7 @@ const NoteEditor: React.FC = () => {
   const handleDelete = () => {
     if (!note) return;
     
-    if (window.confirm('Are you sure you want to delete this note?')) {
+    if (window.confirm(t('deleteConfirmation'))) {
       deleteNote(note.id);
       navigate('/');
     }
@@ -68,9 +70,9 @@ const NoteEditor: React.FC = () => {
   if (!note) {
     return (
       <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] animate-fade-in">
-        <h2 className="text-xl font-medium mb-2">Note not found</h2>
-        <p className="text-muted-foreground mb-4">The note you're looking for doesn't exist.</p>
-        <Button onClick={() => navigate('/')}>Back to Notes</Button>
+        <h2 className="text-xl font-medium mb-2">{t('noteNotFound')}</h2>
+        <p className="text-muted-foreground mb-4">{t('noteNotFoundMessage')}</p>
+        <Button onClick={() => navigate('/')}>{t('back')}</Button>
       </div>
     );
   }
@@ -86,7 +88,7 @@ const NoteEditor: React.FC = () => {
             className="text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="h-5 w-5" />
-            <span className="sr-only">Back</span>
+            <span className="sr-only">{t('back')}</span>
           </Button>
           
           <select
@@ -104,7 +106,7 @@ const NoteEditor: React.FC = () => {
         
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">
-            {isSaving ? 'Saving...' : 'Saved'}
+            {isSaving ? t('saving') : t('saved')}
           </span>
           
           <Button 
@@ -114,7 +116,7 @@ const NoteEditor: React.FC = () => {
             className="text-muted-foreground hover:text-foreground"
           >
             <Save className="h-5 w-5" />
-            <span className="sr-only">Save</span>
+            <span className="sr-only">{t('save')}</span>
           </Button>
           
           <Button 
@@ -124,7 +126,7 @@ const NoteEditor: React.FC = () => {
             className="text-destructive hover:text-destructive/80"
           >
             <Trash2 className="h-5 w-5" />
-            <span className="sr-only">Delete</span>
+            <span className="sr-only">{t('delete')}</span>
           </Button>
           
           <Button 
@@ -133,7 +135,7 @@ const NoteEditor: React.FC = () => {
             className="text-muted-foreground hover:text-foreground"
           >
             <MoreVertical className="h-5 w-5" />
-            <span className="sr-only">More options</span>
+            <span className="sr-only">{t('moreOptions')}</span>
           </Button>
         </div>
       </div>
@@ -143,14 +145,14 @@ const NoteEditor: React.FC = () => {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Untitled Note"
+          placeholder={t('untitledNote')}
           className="font-semibold text-2xl md:text-3xl w-full border-none outline-none bg-transparent mb-4 focus:outline-none"
         />
         
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Start writing..."
+          placeholder={t('startWriting')}
           className="flex-1 w-full border-none outline-none bg-transparent resize-none focus:outline-none text-base md:text-lg"
         />
       </div>

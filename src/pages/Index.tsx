@@ -1,15 +1,24 @@
 
 import React, { useState } from 'react';
-import { FolderOpen, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { FolderOpen, ChevronDown, Settings } from 'lucide-react';
 import { useNotes } from '@/context/NotesContext';
+import { useLanguage } from '@/context/LanguageContext';
 import Header from '@/components/layout/Header';
 import NoteCard from '@/components/layout/NoteCard';
-import Button from '@/components/ui/Button';
+import LanguageSelector from '@/components/layout/LanguageSelector';
+import { Button } from '@/components/ui/button';
 
 const Index: React.FC = () => {
   const { notes, folders } = useNotes();
+  const { t } = useLanguage();
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  // Set document title
+  React.useEffect(() => {
+    document.title = `${t('appName')} - ${t('notes')}`;
+  }, [t]);
   
   // Filter and sort notes
   const filteredNotes = selectedFolder
@@ -40,9 +49,23 @@ const Index: React.FC = () => {
           } fixed inset-y-0 mt-16 z-10 md:relative md:translate-x-0`}
         >
           <div className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <LanguageSelector />
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="p-1 rounded-full"
+                asChild
+              >
+                <Link to="/admin">
+                  <Settings className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <h2 className="text-sm font-medium text-muted-foreground">FOLDERS</h2>
+                <h2 className="text-sm font-medium text-muted-foreground">{t('folders')}</h2>
                 <button className="text-muted-foreground p-1 rounded-full hover:bg-accent">
                   <ChevronDown className="h-4 w-4" />
                 </button>
@@ -54,9 +77,10 @@ const Index: React.FC = () => {
                     variant={selectedFolder === null ? "secondary" : "ghost"}
                     onClick={() => setSelectedFolder(null)}
                     className="w-full justify-start text-sm h-9 px-2"
-                    icon={<FolderOpen className="h-4 w-4" />}
+                    icon="folder"
                   >
-                    All Notes
+                    <FolderOpen className="h-4 w-4 mr-2" />
+                    {t('allNotes')}
                   </Button>
                 </li>
                 
@@ -66,15 +90,13 @@ const Index: React.FC = () => {
                       variant={selectedFolder === folder.id ? "secondary" : "ghost"}
                       onClick={() => setSelectedFolder(folder.id)}
                       className="w-full justify-start text-sm h-9 px-2"
-                      icon={
-                        <div className="h-4 w-4 rounded flex items-center justify-center">
-                          <div 
-                            className="h-3 w-3 rounded-sm"
-                            style={{ backgroundColor: folder.color }}
-                          />
-                        </div>
-                      }
                     >
+                      <div className="h-4 w-4 rounded flex items-center justify-center mr-2">
+                        <div 
+                          className="h-3 w-3 rounded-sm"
+                          style={{ backgroundColor: folder.color }}
+                        />
+                      </div>
                       {folder.name}
                     </Button>
                   </li>
@@ -89,7 +111,7 @@ const Index: React.FC = () => {
           <div className="max-w-5xl mx-auto animate-fade-in">
             {pinnedNotes.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-sm font-medium text-muted-foreground mb-4">PINNED</h2>
+                <h2 className="text-sm font-medium text-muted-foreground mb-4">{t('pinned')}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {pinnedNotes.map(note => (
                     <NoteCard key={note.id} note={note} />
@@ -102,7 +124,7 @@ const Index: React.FC = () => {
               <h2 className="text-sm font-medium text-muted-foreground mb-4">
                 {selectedFolder 
                   ? folders.find(f => f.id === selectedFolder)?.name.toUpperCase() 
-                  : 'ALL NOTES'}
+                  : t('allNotes')}
               </h2>
               
               {sortedUnpinnedNotes.length > 0 ? (
@@ -116,11 +138,11 @@ const Index: React.FC = () => {
                   <div className="rounded-full bg-secondary p-4 mb-4">
                     <FolderOpen className="h-6 w-6 text-secondary-foreground" />
                   </div>
-                  <h3 className="text-lg font-medium mb-2">No notes found</h3>
+                  <h3 className="text-lg font-medium mb-2">{t('noNotes')}</h3>
                   <p className="text-muted-foreground mb-4 max-w-md">
                     {selectedFolder 
-                      ? "There are no notes in this folder yet." 
-                      : "You don't have any notes yet. Create your first note!"}
+                      ? t('noNotesInFolder')
+                      : t('createNotePrompt')}
                   </p>
                 </div>
               )}
